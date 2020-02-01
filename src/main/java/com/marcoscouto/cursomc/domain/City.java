@@ -1,5 +1,7 @@
 package com.marcoscouto.cursomc.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -13,6 +15,7 @@ public class City implements Serializable {
     private Integer id;
     private String name;
 
+    @JsonIgnoreProperties("cities")
     @ManyToOne
     @JoinColumn(name = "state_id")
     private State state;
