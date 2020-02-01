@@ -1,9 +1,13 @@
 package com.marcoscouto.cursomc.config;
 
 import com.marcoscouto.cursomc.domain.Category;
+import com.marcoscouto.cursomc.domain.City;
 import com.marcoscouto.cursomc.domain.Product;
+import com.marcoscouto.cursomc.domain.State;
 import com.marcoscouto.cursomc.repositories.CategoryRepository;
+import com.marcoscouto.cursomc.repositories.CityRepository;
 import com.marcoscouto.cursomc.repositories.ProductRepository;
+import com.marcoscouto.cursomc.repositories.StateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +24,12 @@ public class TestConfig implements CommandLineRunner {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private StateRepository stateRepository;
+
+    @Autowired
+    private CityRepository cityRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -38,9 +48,21 @@ public class TestConfig implements CommandLineRunner {
         p2.getCategories().addAll(Arrays.asList(cat1, cat2));
         p3.getCategories().addAll(Arrays.asList(cat1));
 
-
         categoryRepository.saveAll(Arrays.asList(cat1, cat2));
         productRepository.saveAll(Arrays.asList(p1, p2, p3));
+
+        State state1 = new State(null, "São Paulo");
+        State state2 = new State(null, "Minas Gerais");
+
+        City city1 = new City(null, "Uberlândia", state2);
+        City city2 = new City(null, "São Paulo", state1);
+        City city3 = new City(null, "Campinas", state1);
+
+        stateRepository.saveAll(Arrays.asList(state1, state2));
+        cityRepository.saveAll(Arrays.asList(city1, city2, city3));
+
+
+
 
 
     }
