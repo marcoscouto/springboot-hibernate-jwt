@@ -1,6 +1,7 @@
 package com.marcoscouto.cursomc.config;
 
 import com.marcoscouto.cursomc.domain.*;
+import com.marcoscouto.cursomc.domain.enums.StatePayment;
 import com.marcoscouto.cursomc.domain.enums.TypeClient;
 import com.marcoscouto.cursomc.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 @Configuration
@@ -31,6 +33,12 @@ public class TestConfig implements CommandLineRunner {
 
     @Autowired
     private AddressRepository addressRepository;
+
+    @Autowired
+    private OrderRepository orderRepository;
+
+    @Autowired
+    private PaymentRepository paymentRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -98,6 +106,21 @@ public class TestConfig implements CommandLineRunner {
         clientRepository.save(cli1);
         addressRepository.saveAll(Arrays.asList(ad1, ad2));
 
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+        Order or1 = new Order(null, sdf.parse("30/09/2017 10:32"), cli1, ad1);
+        Order or2 = new Order(null, sdf.parse("10/10/2017 19:35"), cli1, ad2);
+
+        Payment pay1 = new PaymentCreditCard(null, StatePayment.PAID.getCode(), or1, 6);
+        or1.setPayment(pay1);
+
+        Payment pay2 = new PaymentSlip(null, StatePayment.PENDING.getCode(), or2, sdf.parse("20/10/2017 00:00"), null);
+        or2.setPayment(pay2);
+
+        cli1.getOrders().addAll(Arrays.asList(or1, or2));
+
+        orderRepository.saveAll(Arrays.asList(or1, or2));
+        paymentRepository.saveAll(Arrays.asList(pay1, pay2));
 
 
     }
