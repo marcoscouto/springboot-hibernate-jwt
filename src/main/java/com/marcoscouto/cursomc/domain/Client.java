@@ -1,5 +1,6 @@
 package com.marcoscouto.cursomc.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.marcoscouto.cursomc.domain.enums.TypeClient;
 
@@ -27,6 +28,7 @@ public class Client implements Serializable {
     @CollectionTable(name = "tb_phones")
     private Set<String> phones = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "client")
     private List<Order> orders = new ArrayList<>();
 

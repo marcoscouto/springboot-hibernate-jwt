@@ -8,7 +8,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "tb_payment_credit_card")
 public class PaymentCreditCard extends Payment {
-
+    
     private Integer numberOfInstallment;
 
     public PaymentCreditCard(){}

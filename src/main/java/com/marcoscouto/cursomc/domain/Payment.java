@@ -1,5 +1,6 @@
 package com.marcoscouto.cursomc.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.marcoscouto.cursomc.domain.enums.StatePayment;
 
 import javax.persistence.*;
@@ -15,6 +16,7 @@ public abstract class Payment implements Serializable {
     private Integer id;
     private Integer statePayment;
 
+    @JsonIgnoreProperties("payment")
     @OneToOne
     @JoinColumn(name = "order_id")
     @MapsId //Same id as Order
