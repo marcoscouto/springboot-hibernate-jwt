@@ -40,6 +40,9 @@ public class TestConfig implements CommandLineRunner {
     @Autowired
     private PaymentRepository paymentRepository;
 
+    @Autowired
+    private OrderItemRepository orderItemRepository;
+
     @Override
     public void run(String... args) throws Exception {
 
@@ -121,6 +124,20 @@ public class TestConfig implements CommandLineRunner {
 
         orderRepository.saveAll(Arrays.asList(or1, or2));
         paymentRepository.saveAll(Arrays.asList(pay1, pay2));
+
+        OrderItem oi1 = new OrderItem(or1, p1, 0.00, 1, 2000.00);
+        OrderItem oi2 = new OrderItem(or1, p3, 0.00, 2, 80.00);
+        OrderItem oi3 = new OrderItem(or2, p2, 100.00, 1, 800.00);
+
+        or1.getItens().addAll(Arrays.asList(oi1, oi2));
+        or2.getItens().addAll(Arrays.asList(oi3));
+
+        p1.getItens().add(oi1);
+        p2.getItens().add(oi3);
+        p3.getItens().add(oi2);
+
+        orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3));
+
 
 
     }
