@@ -30,14 +30,21 @@ public class CategoryResource {
     }
 
     @PostMapping
-    public ResponseEntity<Category> insert(@RequestBody Category obj){
-        Category category = categoryService.save(obj);
+    public ResponseEntity<Category> insert(@RequestBody Category category){
+        category = categoryService.save(category);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(category.getId())
                 .toUri();
         return ResponseEntity.created(uri).body(category);
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Category> update(@RequestBody Category category, @PathVariable Integer id){
+        category.setId(id);
+        category = categoryService.update(id, category);
+        return ResponseEntity.ok().body(category);
     }
 
 }

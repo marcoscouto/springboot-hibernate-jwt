@@ -31,4 +31,9 @@ public class CategoryService {
         return categoryRepository.save(obj);
     }
 
+    public Category update(Integer id, Category obj){
+        findById(id);
+        return categoryRepository.save(obj);
+    }
+
 }
