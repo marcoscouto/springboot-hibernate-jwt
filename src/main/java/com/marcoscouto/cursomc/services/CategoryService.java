@@ -26,4 +26,9 @@ public class CategoryService {
                         ", Type: " + Category.class.getName()));
     }
 
+    public Category save(Category obj){
+        obj.setId(null);
+        return categoryRepository.save(obj);
+    }
+
 }
