@@ -1,6 +1,7 @@
 package com.marcoscouto.cursomc.resources;
 
 import com.marcoscouto.cursomc.domain.Category;
+import com.marcoscouto.cursomc.dto.CategoryDTO;
 import com.marcoscouto.cursomc.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -18,8 +20,11 @@ public class CategoryResource {
     private CategoryService categoryService;
 
     @GetMapping
-    public ResponseEntity<List<Category>> findAll(){
-        List<Category> categories = categoryService.findAll();
+    public ResponseEntity<List<CategoryDTO>> findAll(){
+        List<CategoryDTO> categories = new ArrayList<>();
+        categoryService.findAll().forEach(
+                x -> categories.add(new CategoryDTO(x))
+        );
         return ResponseEntity.ok().body(categories);
     }
 
