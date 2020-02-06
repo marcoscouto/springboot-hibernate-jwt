@@ -2,10 +2,13 @@ package com.marcoscouto.cursomc.services;
 
 import com.marcoscouto.cursomc.domain.Category;
 import com.marcoscouto.cursomc.repositories.CategoryRepository;
+import com.marcoscouto.cursomc.services.exceptions.DataIntegrityException;
 import com.marcoscouto.cursomc.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import javax.validation.ConstraintViolationException;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,6 +37,16 @@ public class CategoryService {
     public Category update(Integer id, Category obj){
         findById(id);
         return categoryRepository.save(obj);
+    }
+
+    public void delete(Integer id){
+        findById(id);
+        try {
+            categoryRepository.deleteById(id);
+        } catch (DataIntegrityViolationException e){
+            throw new DataIntegrityException("It's not possible delete a category with products.");
+        }
+
     }
 
 }
