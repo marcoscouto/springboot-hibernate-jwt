@@ -15,7 +15,7 @@ public class Client implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String nome;
+    private String name;
     private String email;
     private String document;
     private Integer typeClient;
@@ -35,12 +35,12 @@ public class Client implements Serializable {
     public Client() {
     }
 
-    public Client(Integer id, String nome, String email, String document, TypeClient typeClient) {
+    public Client(Integer id, String name, String email, String document, TypeClient typeClient) {
         this.id = id;
-        this.nome = nome;
+        this.name = name;
         this.email = email;
         this.document = document;
-        this.typeClient = typeClient.getCode();
+        this.typeClient = (typeClient == null) ? null : typeClient.getCode();
     }
 
     public Integer getId() {
@@ -51,12 +51,12 @@ public class Client implements Serializable {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
