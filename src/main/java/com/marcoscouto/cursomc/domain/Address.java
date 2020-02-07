@@ -118,4 +118,18 @@ public class Address implements Serializable {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    @Override
+    public String toString() {
+        return "Address{" +
+                "id=" + id +
+                ", street='" + street + '\'' +
+                ", number='" + number + '\'' +
+                ", complement='" + complement + '\'' +
+                ", neighborhood='" + neighborhood + '\'' +
+                ", zipCode='" + zipCode + '\'' +
+                ", client=" + client +
+                ", city=" + city +
+                '}';
+    }
 }

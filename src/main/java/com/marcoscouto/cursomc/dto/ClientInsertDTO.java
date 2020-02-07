@@ -1,6 +1,11 @@
 package com.marcoscouto.cursomc.dto;
 
+import com.marcoscouto.cursomc.domain.Address;
+import com.marcoscouto.cursomc.domain.City;
+
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ClientInsertDTO implements Serializable {
 
@@ -9,17 +14,11 @@ public class ClientInsertDTO implements Serializable {
     private String document;
     private Integer typeClient;
 
-    private String street;
-    private String number;
-    private String complement;
-    private String neighborhood;
-    private String zipCode;
+    List<Address> addresses = new ArrayList<>();
 
-    private String phone1;
-    private String phone2;
-    private String phone3;
+    private List<String> phones = new ArrayList<>();
 
-    private Integer cityId;
+    private City cityId;
 
     public ClientInsertDTO() {
     }
@@ -56,75 +55,19 @@ public class ClientInsertDTO implements Serializable {
         this.typeClient = typeClient;
     }
 
-    public String getStreet() {
-        return street;
+    public List<Address> getAddresses() {
+        return addresses;
     }
 
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public String getNumber() {
-        return number;
-    }
-
-    public void setNumber(String number) {
-        this.number = number;
-    }
-
-    public String getComplement() {
-        return complement;
-    }
-
-    public void setComplement(String complement) {
-        this.complement = complement;
-    }
-
-    public String getNeighborhood() {
-        return neighborhood;
-    }
-
-    public void setNeighborhood(String neighborhood) {
-        this.neighborhood = neighborhood;
-    }
-
-    public String getZipCode() {
-        return zipCode;
-    }
-
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
-    }
-
-    public String getPhone1() {
-        return phone1;
-    }
-
-    public void setPhone1(String phone1) {
-        this.phone1 = phone1;
-    }
-
-    public String getPhone2() {
-        return phone2;
-    }
-
-    public void setPhone2(String phone2) {
-        this.phone2 = phone2;
-    }
-
-    public String getPhone3() {
-        return phone3;
-    }
-
-    public void setPhone3(String phone3) {
-        this.phone3 = phone3;
-    }
-
-    public Integer getCityId() {
+    public City getCityId() {
         return cityId;
     }
 
-    public void setCityId(Integer cityId) {
+    public void setCityId(City cityId) {
         this.cityId = cityId;
+    }
+
+    public List<String> getPhones() {
+        return phones;
     }
 }

@@ -1,11 +1,7 @@
 package com.marcoscouto.cursomc.services;
 
-import com.marcoscouto.cursomc.domain.Address;
-import com.marcoscouto.cursomc.domain.Category;
-import com.marcoscouto.cursomc.domain.City;
 import com.marcoscouto.cursomc.domain.Client;
 import com.marcoscouto.cursomc.domain.enums.TypeClient;
-import com.marcoscouto.cursomc.dto.CategoryDTO;
 import com.marcoscouto.cursomc.dto.ClientDTO;
 import com.marcoscouto.cursomc.dto.ClientInsertDTO;
 import com.marcoscouto.cursomc.repositories.AddressRepository;
@@ -20,7 +16,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,8 +41,13 @@ public class ClientService {
     @Transactional
     public Client save(Client client){
         client.setId(null);
+        client.getAddresses().forEach(
+                x -> {
+                    System.out.println(x);
+                    addressRepository.save(x);
+                }
+        );
         client = clientRepository.save(client);
-        addressRepository.save(client.getAddresses().get(0));
         return client;
     }
 
@@ -91,20 +91,16 @@ public class ClientService {
                 clientInsertDTO.getDocument(),
                 TypeClient.toEnum(clientInsertDTO.getTypeClient())
                 );
-        Address address = new Address(
-                null,
-                clientInsertDTO.getStreet(),
-                clientInsertDTO.getNumber(),
-                clientInsertDTO.getComplement(),
-                clientInsertDTO.getNeighborhood(),
-                clientInsertDTO.getZipCode(),
-                client,
-                new City(clientInsertDTO.getCityId(), null, null)
+
+
+        clientInsertDTO.getAddresses().forEach(x -> {
+            x.setClient(client);
+        });
+        client.getAddresses().addAll(
+                clientInsertDTO.getAddresses()
         );
-        client.getAddresses().add(address);
-        client.getPhones().add(clientInsertDTO.getPhone1());
-        if(clientInsertDTO.getPhone2() != null ) client.getPhones().add(clientInsertDTO.getPhone2());
-        if(clientInsertDTO.getPhone3() != null ) client.getPhones().add(clientInsertDTO.getPhone3());
+
+        client.getPhones().addAll(clientInsertDTO.getPhones());
         return client;
     }
 
