@@ -1,20 +1,25 @@
 package com.marcoscouto.cursomc.dto;
 
 import com.marcoscouto.cursomc.domain.Category;
+import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 public class CategoryDTO implements Serializable {
 
     private Integer id;
-    private String nome;
+
+    @NotEmpty(message = "Name not be empty")
+    @Length(min = 5, max = 80, message = "Length between 5-80 characters")
+    private String name;
 
     public CategoryDTO() {
     }
 
     public CategoryDTO(Category category) {
         this.id = category.getId();
-        this.nome = category.getName();
+        this.name = category.getName();
     }
 
     public Integer getId() {
@@ -25,11 +30,11 @@ public class CategoryDTO implements Serializable {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setName(String name) {
+        this.name = name;
     }
 }
