@@ -2,6 +2,7 @@ package com.marcoscouto.cursomc.resources;
 
 import com.marcoscouto.cursomc.domain.Client;
 import com.marcoscouto.cursomc.dto.ClientDTO;
+import com.marcoscouto.cursomc.dto.ClientInsertDTO;
 import com.marcoscouto.cursomc.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -49,8 +50,8 @@ public class ClientResource {
     }
 
     @PostMapping
-    public ResponseEntity<Client> insert(@Valid @RequestBody ClientDTO clientDTO){
-        Client client = clientService.fromDTO(clientDTO);
+    public ResponseEntity<Client> insert(@Valid @RequestBody ClientInsertDTO clientInsertDTO){
+        Client client = clientService.fromDTO(clientInsertDTO);
         client = clientService.save(client);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()

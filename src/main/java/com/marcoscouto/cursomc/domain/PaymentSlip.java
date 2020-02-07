@@ -20,7 +20,7 @@ public class PaymentSlip extends Payment {
     public PaymentSlip(){}
 
     public PaymentSlip(Integer id, Integer statePayment, Order order, Date dueDate, Date paymentDate) {
-        super(id, statePayment, order);
+        super(id, StatePayment.toEnum(statePayment), order);
         this.dueDate = dueDate;
         this.paymentDate = paymentDate;
     }

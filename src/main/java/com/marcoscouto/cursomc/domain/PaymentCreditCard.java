@@ -14,7 +14,7 @@ public class PaymentCreditCard extends Payment {
     public PaymentCreditCard(){}
 
     public PaymentCreditCard(Integer id, Integer statePayment, Order order, Integer numberOfInstallment) {
-        super(id, statePayment, order);
+        super(id, StatePayment.toEnum(statePayment), order);
         this.numberOfInstallment = numberOfInstallment;
     }
 
