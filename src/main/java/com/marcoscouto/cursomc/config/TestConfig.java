@@ -156,8 +156,8 @@ public class TestConfig implements CommandLineRunner {
         OrderItem oi2 = new OrderItem(or1, p3, 0.00, 2, 80.00);
         OrderItem oi3 = new OrderItem(or2, p2, 100.00, 1, 800.00);
 
-        or1.getItens().addAll(Arrays.asList(oi1, oi2));
-        or2.getItens().addAll(Arrays.asList(oi3));
+        or1.getItems().addAll(Arrays.asList(oi1, oi2));
+        or2.getItems().addAll(Arrays.asList(oi3));
 
         p1.getItens().add(oi1);
         p2.getItens().add(oi3);

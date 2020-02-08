@@ -1,6 +1,7 @@
 package com.marcoscouto.cursomc.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.marcoscouto.cursomc.domain.enums.StatePayment;
 
 import javax.persistence.Entity;
@@ -9,6 +10,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "tb_payment_slip")
+@JsonTypeName("paymentSlip")
 public class PaymentSlip extends Payment {
 
     @JsonFormat(pattern = "dd/MM/yyyy")

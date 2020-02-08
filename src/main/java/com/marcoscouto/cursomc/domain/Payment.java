@@ -1,6 +1,7 @@
 package com.marcoscouto.cursomc.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.marcoscouto.cursomc.domain.enums.StatePayment;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "tb_payment")
 @Inheritance(strategy = InheritanceType.JOINED)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "@type")
 public abstract class Payment implements Serializable {
 
     @Id
@@ -39,12 +41,12 @@ public abstract class Payment implements Serializable {
         this.id = id;
     }
 
-    public Integer getStatePayment() {
-        return statePayment;
+    public StatePayment getStatePayment() {
+        return StatePayment.toEnum(statePayment);
     }
 
-    public void setStatePayment(Integer statePayment) {
-        this.statePayment = statePayment;
+    public void setStatePayment(StatePayment statePayment) {
+        this.statePayment = statePayment.getCode();
     }
 
     public Order getOrder() {

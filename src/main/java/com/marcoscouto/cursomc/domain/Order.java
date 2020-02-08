@@ -32,7 +32,7 @@ public class Order implements Serializable {
     private Address addressDelivery;
 
     @OneToMany(mappedBy = "id.order")
-    private Set<OrderItem> itens = new HashSet<>();
+    private Set<OrderItem> items = new HashSet<>();
 
     public Order() {
     }
@@ -45,7 +45,7 @@ public class Order implements Serializable {
     }
 
     public Double getTotal(){
-        return itens.stream().mapToDouble(x -> x.getSubtotal()).sum();
+        return items.stream().mapToDouble(x -> x.getSubtotal()).sum();
     }
 
     public Integer getId() {
@@ -88,8 +88,8 @@ public class Order implements Serializable {
         this.addressDelivery = addressDelivery;
     }
 
-    public Set<OrderItem> getItens() {
-        return itens;
+    public Set<OrderItem> getItems() {
+        return items;
     }
 
     @Override
