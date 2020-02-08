@@ -2,16 +2,28 @@ package com.marcoscouto.cursomc.dto;
 
 import com.marcoscouto.cursomc.domain.Address;
 import com.marcoscouto.cursomc.domain.City;
+import com.marcoscouto.cursomc.services.validation.ClientInsert;
+import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+@ClientInsert
 public class ClientInsertDTO implements Serializable {
 
+    @NotEmpty(message = "Name not be empty")
+    @Length(min = 5, max = 80, message = "Length must be between 5-80 characters")
     private String name;
+
+    @NotEmpty(message = "Name not be empty")
+    @Length(min = 5, max = 80, message = "Length must be between 5-80 characters")
     private String email;
+
+    @NotEmpty(message = "Name not be empty")
     private String document;
+
     private Integer typeClient;
 
     List<Address> addresses = new ArrayList<>();
