@@ -3,6 +3,7 @@ package com.marcoscouto.cursomc.config;
 import com.marcoscouto.cursomc.services.DBService;
 import com.marcoscouto.cursomc.services.EmailService;
 import com.marcoscouto.cursomc.services.MockEmailService;
+import com.marcoscouto.cursomc.services.SmtpEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -22,12 +23,12 @@ public class TestConfig implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        if (strategy.equals("create"))
+        if (strategy.equals("create") || strategy.equals("update"))
             databaseService.populateDatabase();
     }
 
     @Bean
     public EmailService emailService(){
-        return new MockEmailService();
+        return new SmtpEmailService();
     }
 }

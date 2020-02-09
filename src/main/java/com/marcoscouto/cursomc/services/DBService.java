@@ -99,7 +99,7 @@ public class DBService {
         Client cli1 = new Client(
                 null,
                 "Maria Silva",
-                "maria@gmail.com",
+                "marcosmartinellicouto@gmail.com",
                 "34567876523",
                 TypeClient.PHYSICAL_PERSON);
 
