@@ -7,7 +7,6 @@ import com.marcoscouto.cursomc.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import sun.text.resources.de.FormatData_de;
 
 import java.util.Date;
 import java.util.Optional;
@@ -32,6 +31,9 @@ public class OrderService {
 
     @Autowired
     private ClientService clientService;
+
+    @Autowired
+    private EmailService emailService;
 
     public Order findById(Integer id){
         Optional<Order> order = orderRepository.findById(id);
@@ -59,7 +61,7 @@ public class OrderService {
             item.setOrder(order);
         }
         orderItemRepository.saveAll(order.getItems());
-        System.out.println(order);
+        emailService.sendOrderConfirmationEmail(order);
         return order;
     }
 
