@@ -2,14 +2,12 @@ package com.marcoscouto.cursomc.services;
 
 import com.marcoscouto.cursomc.domain.*;
 import com.marcoscouto.cursomc.domain.enums.StatePayment;
-import com.marcoscouto.cursomc.repositories.OrderItemRepository;
-import com.marcoscouto.cursomc.repositories.OrderRepository;
-import com.marcoscouto.cursomc.repositories.PaymentRepository;
-import com.marcoscouto.cursomc.repositories.ProductRepository;
+import com.marcoscouto.cursomc.repositories.*;
 import com.marcoscouto.cursomc.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import sun.text.resources.de.FormatData_de;
 
 import java.util.Date;
 import java.util.Optional;
@@ -32,6 +30,9 @@ public class OrderService {
     @Autowired
     private OrderItemRepository orderItemRepository;
 
+    @Autowired
+    private ClientService clientService;
+
     public Order findById(Integer id){
         Optional<Order> order = orderRepository.findById(id);
         return order.orElseThrow(() -> new ObjectNotFoundException("Object not found! Id: " + id +
@@ -42,6 +43,7 @@ public class OrderService {
     public Order save(Order order){
         order.setId(null);
         order.setInstant(new Date());
+        order.setClient(clientService.findById(order.getClient().getId()));
         order.getPayment().setStatePayment(StatePayment.PENDING);
         order.getPayment().setOrder(order);
         if(order.getPayment() instanceof PaymentSlip) {
@@ -52,10 +54,12 @@ public class OrderService {
         paymentRepository.save(order.getPayment());
         for (OrderItem item : order.getItems()){
             item.setDiscount(0.0);
-            item.setPrice(productService.findById(item.getProduct().getId()).getPrice());
+            item.setProduct(productService.findById(item.getProduct().getId()));
+            item.setPrice(item.getProduct().getPrice());
             item.setOrder(order);
         }
         orderItemRepository.saveAll(order.getItems());
+        System.out.println(order);
         return order;
     }
 
