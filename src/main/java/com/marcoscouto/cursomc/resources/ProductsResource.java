@@ -20,12 +20,6 @@ public class ProductsResource {
     @Autowired
     private ProductService productService;
 
-//    @GetMapping
-//    public ResponseEntity<List<Product>> findAll(){
-//        List<Product> products = productService.findAll();
-//        return ResponseEntity.ok().body(products);
-//    }
-
     @GetMapping(value = "/{id}")
     public ResponseEntity<Product> findById(@PathVariable Integer id){
         Product product = productService.findById(id);
@@ -34,16 +28,18 @@ public class ProductsResource {
 
     @GetMapping
     public ResponseEntity<Page<ProductDTO>> findPage(
-            @RequestParam(value = "name", defaultValue = " ") String name,
+            @RequestParam(value = "name", defaultValue = "") String name,
             @RequestParam(value = "categories", defaultValue = "") String categories,
             @RequestParam(value = "page", defaultValue = "0") Integer page,
             @RequestParam(value = "linesPerPage", defaultValue = "24")Integer linesPerPage,
             @RequestParam(value = "orderBy", defaultValue = "name")String orderBy,
             @RequestParam(value = "direction", defaultValue = "ASC")String direction){
 
-        Page<ProductDTO> products = productService.search(URL.decodeParam(name), URL.decodeIntList(categories), page, linesPerPage, orderBy, direction).map(
-                x -> new ProductDTO(x)
-        );
+        Page<ProductDTO> products =
+                productService
+                .search(URL.decodeParam(name), URL.decodeIntList(categories), page, linesPerPage, orderBy, direction)
+                .map(x -> new ProductDTO(x));
+
         return ResponseEntity.ok().body(products);
     }
 
