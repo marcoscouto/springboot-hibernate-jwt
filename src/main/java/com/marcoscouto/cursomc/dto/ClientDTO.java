@@ -13,7 +13,7 @@ public class ClientDTO implements Serializable {
 
     private Integer id;
 
-    @NotEmpty(message = "Name not be empty")
+    @NotEmpty(message = "Name can't be empty")
     @Length(min = 5, max = 120, message = "Length must be between 5-120 characters")
     private String name;
 

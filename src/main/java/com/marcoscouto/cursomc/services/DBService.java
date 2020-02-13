@@ -5,6 +5,7 @@ import com.marcoscouto.cursomc.domain.enums.StatePayment;
 import com.marcoscouto.cursomc.domain.enums.TypeClient;
 import com.marcoscouto.cursomc.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.text.ParseException;
@@ -13,6 +14,9 @@ import java.util.Arrays;
 
 @Component
 public class DBService {
+
+    @Autowired
+    private BCryptPasswordEncoder bcp;
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -101,7 +105,8 @@ public class DBService {
                 "Maria Silva",
                 "marcosmartinellicouto@gmail.com",
                 "34567876523",
-                TypeClient.PHYSICAL_PERSON);
+                TypeClient.PHYSICAL_PERSON,
+                bcp.encode("batata"));
 
         cli1.getPhones().addAll(
                 Arrays.asList("11 98982733", "11 97267931"));

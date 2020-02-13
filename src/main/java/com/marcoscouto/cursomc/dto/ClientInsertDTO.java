@@ -13,18 +13,21 @@ import java.util.List;
 @ClientInsert
 public class ClientInsertDTO implements Serializable {
 
-    @NotEmpty(message = "Name not be empty")
+    @NotEmpty(message = "Name can't be empty")
     @Length(min = 5, max = 80, message = "Length must be between 5-80 characters")
     private String name;
 
-    @NotEmpty(message = "Name not be empty")
+    @NotEmpty(message = "Email can't be empty")
     @Length(min = 5, max = 80, message = "Length must be between 5-80 characters")
     private String email;
 
-    @NotEmpty(message = "Name not be empty")
+    @NotEmpty(message = "Document can't be empty")
     private String document;
 
     private Integer typeClient;
+
+    @NotEmpty(message = "Password can't be empty")
+    private String password;
 
     List<Address> addresses = new ArrayList<>();
 
@@ -65,6 +68,14 @@ public class ClientInsertDTO implements Serializable {
 
     public void setTypeClient(Integer typeClient) {
         this.typeClient = typeClient;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public List<Address> getAddresses() {

@@ -2,7 +2,6 @@ package com.marcoscouto.cursomc.config;
 
 import com.marcoscouto.cursomc.services.DBService;
 import com.marcoscouto.cursomc.services.EmailService;
-import com.marcoscouto.cursomc.services.MockEmailService;
 import com.marcoscouto.cursomc.services.SmtpEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

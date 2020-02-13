@@ -13,6 +13,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -27,6 +28,9 @@ public class ClientService {
 
     @Autowired
     private AddressRepository addressRepository;
+
+    @Autowired
+    private BCryptPasswordEncoder bcp;
 
     public List<Client> findAll(){
         return clientRepository.findAll();
@@ -78,6 +82,7 @@ public class ClientService {
                 clientDTO.getName(),
                 clientDTO.getEmail(),
                 null,
+                null,
                 null
                 );
         return client;
@@ -89,7 +94,8 @@ public class ClientService {
                 clientInsertDTO.getName(),
                 clientInsertDTO.getEmail(),
                 clientInsertDTO.getDocument(),
-                TypeClient.toEnum(clientInsertDTO.getTypeClient())
+                TypeClient.toEnum(clientInsertDTO.getTypeClient()),
+                bcp.encode(clientInsertDTO.getPassword())
                 );
 
 
