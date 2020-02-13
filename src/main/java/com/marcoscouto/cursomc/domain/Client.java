@@ -2,11 +2,13 @@ package com.marcoscouto.cursomc.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.marcoscouto.cursomc.domain.enums.Profile;
 import com.marcoscouto.cursomc.domain.enums.TypeClient;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "tb_client")
@@ -33,11 +35,16 @@ public class Client implements Serializable {
     @CollectionTable(name = "tb_phones")
     private Set<String> phones = new HashSet<>();
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "tb_profiles")
+    private Set<Integer> profiles = new HashSet<>();
+
     @JsonIgnore
     @OneToMany(mappedBy = "client")
     private List<Order> orders = new ArrayList<>();
 
     public Client() {
+        addProfile(Profile.CLIENT);
     }
 
     public Client(Integer id, String name, String email, String document, TypeClient typeClient, String password) {
@@ -47,6 +54,7 @@ public class Client implements Serializable {
         this.document = document;
         this.typeClient = (typeClient == null) ? null : typeClient.getCode();
         this.password = password;
+        addProfile(Profile.CLIENT);
     }
 
     public Integer getId() {
@@ -107,6 +115,14 @@ public class Client implements Serializable {
 
     public List<Order> getOrders() {
         return orders;
+    }
+
+    public Set<Profile> getProfiles() {
+        return profiles.stream().map(x -> Profile.toEnum(x)).collect(Collectors.toSet());
+    }
+
+    public void addProfile(Profile profile) {
+        this.profiles.add(profile.getCode());
     }
 
     @Override

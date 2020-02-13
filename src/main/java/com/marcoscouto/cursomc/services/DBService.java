@@ -1,6 +1,7 @@
 package com.marcoscouto.cursomc.services;
 
 import com.marcoscouto.cursomc.domain.*;
+import com.marcoscouto.cursomc.domain.enums.Profile;
 import com.marcoscouto.cursomc.domain.enums.StatePayment;
 import com.marcoscouto.cursomc.domain.enums.TypeClient;
 import com.marcoscouto.cursomc.repositories.*;
@@ -111,6 +112,17 @@ public class DBService {
         cli1.getPhones().addAll(
                 Arrays.asList("11 98982733", "11 97267931"));
 
+        Client cli2 = new Client(
+                null,
+                "Marcos Couto",
+                "marcos_otuoc@gmail.com",
+                "34567876523",
+                TypeClient.PHYSICAL_PERSON,
+                bcp.encode("batata"));
+
+        cli2.addProfile(Profile.ADMIN);
+        cli1.getPhones().addAll(
+                Arrays.asList("17 92263956", "19 948523648"));
 
         Address ad1 = new Address(
                 null,
@@ -132,10 +144,21 @@ public class DBService {
                 cli1,
                 city2);
 
-        cli1.getAddresses().addAll(Arrays.asList(ad1, ad2));
+        Address ad3 = new Address(
+                null,
+                "Rua de Asfalto",
+                "65",
+                "",
+                "Bairro das Orquideas",
+                "54236-930",
+                cli2,
+                city2);
 
-        clientRepository.save(cli1);
-        addressRepository.saveAll(Arrays.asList(ad1, ad2));
+        cli1.getAddresses().addAll(Arrays.asList(ad1, ad2));
+        cli2.getAddresses().addAll(Arrays.asList(ad3));
+
+        clientRepository.saveAll(Arrays.asList(cli1, cli2));
+        addressRepository.saveAll(Arrays.asList(ad1, ad2, ad3));
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
