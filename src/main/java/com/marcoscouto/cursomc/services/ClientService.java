@@ -1,11 +1,14 @@
 package com.marcoscouto.cursomc.services;
 
 import com.marcoscouto.cursomc.domain.Client;
+import com.marcoscouto.cursomc.domain.enums.Profile;
 import com.marcoscouto.cursomc.domain.enums.TypeClient;
 import com.marcoscouto.cursomc.dto.ClientDTO;
 import com.marcoscouto.cursomc.dto.ClientInsertDTO;
 import com.marcoscouto.cursomc.repositories.AddressRepository;
 import com.marcoscouto.cursomc.repositories.ClientRepository;
+import com.marcoscouto.cursomc.security.UserSS;
+import com.marcoscouto.cursomc.services.exceptions.AuthorizationException;
 import com.marcoscouto.cursomc.services.exceptions.DataIntegrityException;
 import com.marcoscouto.cursomc.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +40,13 @@ public class ClientService {
     }
 
     public Client findById(Integer id){
+
+        UserSS userSS = UserService.authenticated();
+
+        if(userSS == null || !userSS.hasRole(Profile.ADMIN) && !id.equals(userSS.getId()))
+            throw new AuthorizationException("Access Denied");
+
+
         Optional<Client> client = clientRepository.findById(id);
         return client.orElseThrow(() -> new ObjectNotFoundException("Object not found! Id: " + id +
                 ", Type: " + Client.class.getName()));

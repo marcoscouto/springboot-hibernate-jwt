@@ -1,5 +1,6 @@
 package com.marcoscouto.cursomc.resources.exception;
 
+import com.marcoscouto.cursomc.services.exceptions.AuthorizationException;
 import com.marcoscouto.cursomc.services.exceptions.DataIntegrityException;
 import com.marcoscouto.cursomc.services.exceptions.ObjectNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -48,6 +49,18 @@ public class ResourceExceptionHandler {
         e.getBindingResult().getFieldErrors().forEach(
                 x -> err.addError(x.getField(), x.getDefaultMessage())
         );
+
+        return ResponseEntity.status(err.getStatus()).body(err);
+
+    }
+
+    @ExceptionHandler(AuthorizationException.class)
+    public ResponseEntity<StandardError> authorization(MethodArgumentNotValidException e,
+                                                       HttpServletRequest request){
+
+        StandardError err = new StandardError(HttpStatus.FORBIDDEN.value(),
+                e.getMessage(),
+                System.currentTimeMillis());
 
         return ResponseEntity.status(err.getStatus()).body(err);
 
