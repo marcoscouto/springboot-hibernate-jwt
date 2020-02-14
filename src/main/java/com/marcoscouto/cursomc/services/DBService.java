@@ -109,6 +109,8 @@ public class DBService {
                 TypeClient.PHYSICAL_PERSON,
                 bcp.encode("batata"));
 
+        cli1.addProfile(Profile.CLIENT);
+
         cli1.getPhones().addAll(
                 Arrays.asList("11 98982733", "11 97267931"));
 
