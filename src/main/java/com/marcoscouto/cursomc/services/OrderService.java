@@ -3,8 +3,13 @@ package com.marcoscouto.cursomc.services;
 import com.marcoscouto.cursomc.domain.*;
 import com.marcoscouto.cursomc.domain.enums.StatePayment;
 import com.marcoscouto.cursomc.repositories.*;
+import com.marcoscouto.cursomc.security.UserSS;
+import com.marcoscouto.cursomc.services.exceptions.AuthorizationException;
 import com.marcoscouto.cursomc.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -63,6 +68,14 @@ public class OrderService {
         orderItemRepository.saveAll(order.getItems());
         emailService.sendOrderConfirmationEmail(order);
         return order;
+    }
+
+    public Page<Order> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
+        UserSS user = UserService.authenticated();
+        if(user == null) throw new AuthorizationException("Access denied");
+        PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
+        Client cli = clientService.findById(user.getId());
+        return orderRepository.findByClient(cli, pageRequest);
     }
 
 }
