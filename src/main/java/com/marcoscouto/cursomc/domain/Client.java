@@ -43,6 +43,8 @@ public class Client implements Serializable {
     @OneToMany(mappedBy = "client")
     private List<Order> orders = new ArrayList<>();
 
+    private String imageURL;
+
     public Client() {
         addProfile(Profile.CLIENT);
     }
@@ -123,6 +125,14 @@ public class Client implements Serializable {
 
     public void addProfile(Profile profile) {
         this.profiles.add(profile.getCode());
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 
     @Override
