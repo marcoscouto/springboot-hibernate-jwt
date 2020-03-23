@@ -2,6 +2,7 @@ package com.marcoscouto.cursomc.config;
 
 import com.marcoscouto.cursomc.services.DBService;
 import com.marcoscouto.cursomc.services.EmailService;
+import com.marcoscouto.cursomc.services.S3Service;
 import com.marcoscouto.cursomc.services.SmtpEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,6 +16,9 @@ import org.springframework.context.annotation.Profile;
 public class TestConfig implements CommandLineRunner {
 
     @Autowired
+    private S3Service s3Service;
+
+    @Autowired
     private DBService databaseService;
 
     @Value("${spring.jpa.hibernate.ddl-auto}")
@@ -24,6 +28,8 @@ public class TestConfig implements CommandLineRunner {
     public void run(String... args) throws Exception {
         if (strategy.equals("create") || strategy.equals("update"))
             databaseService.populateDatabase();
+
+        s3Service.uploadFile("/Users/marcoscouto/Pictures/foto.jpeg");
     }
 
     @Bean
