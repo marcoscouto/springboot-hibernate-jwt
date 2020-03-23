@@ -12,6 +12,7 @@ import com.marcoscouto.cursomc.services.exceptions.AuthorizationException;
 import com.marcoscouto.cursomc.services.exceptions.DataIntegrityException;
 import com.marcoscouto.cursomc.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,12 +22,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.awt.image.BufferedImage;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class ClientService {
+
+    @Autowired
+    private ImageService imageService;
 
     @Autowired
     private S3Service s3Service;
@@ -39,6 +44,9 @@ public class ClientService {
 
     @Autowired
     private BCryptPasswordEncoder bcp;
+
+    @Value("${img.prefix.client.profile}")
+    private String prefix;
 
     public List<Client> findAll(){
         return clientRepository.findAll();
@@ -135,12 +143,9 @@ public class ClientService {
         UserSS userSS = UserService.authenticated();
         if(userSS == null) throw new AuthorizationException("Access Denied");
 
-        URI uri = s3Service.uploadFile(multipartFile);
+        BufferedImage jpgImage = imageService.getJpgImageFromFile(multipartFile);
+        String fileName = prefix + userSS.getId() + ".jpg";
 
-        Client client = findById(userSS.getId());
-        client.setImageURL(uri.toString());
-        clientRepository.save(client);
-
-        return uri;
+        return s3Service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
     }
 }
